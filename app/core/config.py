@@ -1,3 +1,4 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 
@@ -21,6 +22,20 @@ class Settings(BaseSettings):
     GOOGLE_REDIRECT_URI: str
 
     FRONTEND_URL: str
+
+    @field_validator("DEBUG", mode="before")
+    @classmethod
+    def parse_debug(cls, value):
+        if isinstance(value, str):
+            normalized = value.strip().lower()
+
+            if normalized in {"release", "prod", "production"}:
+                return False
+
+            if normalized in {"dev", "development"}:
+                return True
+
+        return value
 
     class Config:
         env_file = ".env"

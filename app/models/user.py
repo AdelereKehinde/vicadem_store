@@ -1,10 +1,10 @@
 from sqlalchemy import Column
-
 from sqlalchemy import Integer
-
 from sqlalchemy import String
-
 from sqlalchemy import Boolean
+from sqlalchemy import DateTime
+
+from datetime import datetime
 
 from app.core.database import Base
 
@@ -39,6 +39,11 @@ class User(Base):
         nullable=True
     )
 
+    avatar = Column(
+        String,
+        nullable=True
+    )
+
     role = Column(
         String,
         default="user"
@@ -47,4 +52,9 @@ class User(Base):
     is_active = Column(
         Boolean,
         default=True
+    )
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
     )
